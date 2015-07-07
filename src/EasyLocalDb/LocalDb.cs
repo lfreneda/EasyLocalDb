@@ -8,15 +8,17 @@ namespace EasyLocalDb
 {
     public class LocalDb : IDisposable
     {
+        protected readonly string DbName;
+        protected readonly string InstanceName;
+
         private readonly string _attachDbFileName;
-        private readonly string _dbName;
-        private readonly string _instanceName;
         private readonly string _tempBasePath;
+
         private bool _disposabled;
 
         public LocalDb(string tempBasePath = @"C:\temp\", string instanceName = "v11.0")
         {
-            _instanceName = instanceName;
+            InstanceName = instanceName;
             _tempBasePath = tempBasePath;
 
             ISqlLocalDbApi localDb = new SqlLocalDbApiWrapper();
@@ -28,8 +30,8 @@ namespace EasyLocalDb
 
             CreateDirectoriesIfNotExists();
 
-            _dbName = RandomName();
-            _attachDbFileName = Path.Combine(_tempBasePath, _dbName) + ".mdf";
+            DbName = RandomName();
+            _attachDbFileName = Path.Combine(_tempBasePath, DbName) + ".mdf";
         }
 
         public void Dispose()
@@ -55,13 +57,13 @@ namespace EasyLocalDb
             return
                 string.Format(
                     @"Data Source=(LocalDb)\{2};AttachDBFileName={1};Initial Catalog={0};Integrated Security=True;",
-                    _dbName, _attachDbFileName, _instanceName);
+                    DbName, _attachDbFileName, InstanceName);
         }
 
         private string GetMasterConnectionString()
         {
             var connectionString =
-                string.Format(@"Data Source=(LocalDb)\" + _instanceName +
+                string.Format(@"Data Source=(LocalDb)\" + InstanceName +
                               ";Initial Catalog=master;Integrated Security=True");
             return connectionString;
         }
@@ -75,7 +77,7 @@ namespace EasyLocalDb
                 try
                 {
                     var createCommand = string.Format("CREATE DATABASE [{0}] ON (NAME = N'{0}', FILENAME = '{1}')",
-                        _dbName, _attachDbFileName);
+                        DbName, _attachDbFileName);
                     using (var command = new SqlCommand(createCommand, connection))
                     {
                         command.ExecuteNonQuery();
@@ -128,7 +130,7 @@ namespace EasyLocalDb
             return results;
         }
 
-        public void CleanUp()
+        private void CleanUp()
         {
             foreach (var databasesName in GetDatabasesOnLocalDb())
             {

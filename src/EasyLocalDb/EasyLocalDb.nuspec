@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>lfreneda</authors>
+    <owners>lfreneda</owners>
+    <licenseUrl>https://raw.githubusercontent.com/lfreneda/EasyLocalDb/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/lfreneda/EasyLocalDb</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/lfreneda/EasyLocalDb/master/EasyLocalDb.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A higher-level interface for LocalDb</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>localdb createdatabase create database testing memory db</tags>
+    <dependencies>
+      <dependency id="System.Data.SqlLocalDb"  version="1.14.0"  />
+    </dependencies>
+  </metadata>
+</package>

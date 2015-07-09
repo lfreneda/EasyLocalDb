@@ -6,15 +6,13 @@ using System.IO;
 
 namespace EasyLocalDb
 {
-    public class LocalDb : IDisposable
+    public class LocalDb
     {
         protected readonly string DbName;
         protected readonly string InstanceName;
 
         private readonly string _attachDbFileName;
         private readonly string _tempBasePath;
-
-        private bool _disposabled;
 
         public LocalDb(string tempBasePath = @"C:\temp\", string instanceName = "v11.0")
         {
@@ -32,11 +30,6 @@ namespace EasyLocalDb
 
             DbName = RandomName();
             _attachDbFileName = Path.Combine(_tempBasePath, DbName) + ".mdf";
-        }
-
-        public void Dispose()
-        {
-            if (!_disposabled) CleanUp();
         }
 
         private void CreateDirectoriesIfNotExists()
@@ -130,7 +123,7 @@ namespace EasyLocalDb
             return results;
         }
 
-        private void CleanUp()
+        protected void CleanUp()
         {
             foreach (var databasesName in GetDatabasesOnLocalDb())
             {
@@ -154,8 +147,6 @@ namespace EasyLocalDb
                 {
                 }
             }
-
-            _disposabled = true;
         }
     }
 }

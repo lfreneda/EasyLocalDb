@@ -23,7 +23,7 @@ namespace EasyLocalDb.Sample
         [TearDown]
         public void TearDown()
         {
-            Dispose();
+            CleanUp();
         }
     }
 }
